@@ -17,12 +17,23 @@ class BaseDAO(Generic[T]):
 
     @property
     def _items_per_page(self) -> int:
+        """
+        Количество выводимых элементов на странице
+        """
         return current_app.config['ITEMS_PER_PAGE']
 
     def get_by_id(self, pk: int) -> Optional[T]:
+        """
+        Получение объекта по id
+        :param pk: id объекта
+        """
         return self._db_session.query(self.__model__).get(pk)
 
     def get_all(self, page: Optional[int] = None) -> List[T]:
+        """
+        Получение всех объектов
+        :param page: номер страницы
+        """
         stmt: BaseQuery = self._db_session.query(self.__model__)
         if page:
             try:
